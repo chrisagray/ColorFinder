@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MobileCoreServices
 
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate {
     
@@ -22,11 +21,18 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     private let minimumZoomScale = 0.25
     private let maximumZoomScale = 1.0
     
+    private var centerColor = HexColor()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.bringSubview(toFront: loadImageButton)
         pixelTargetView.isHidden = true
     }
+    
+    @IBAction func copyColor(_ sender: UIBarButtonItem) {
+        UIPasteboard.general.string = centerColor.hexValue
+    }
+    
     
     //MARK: - Image
     
@@ -66,16 +72,16 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     private func getColorFromCenter() {
         //dividing scollView's offsets by the zoomScale if we're zoomed in/out
-        var centerColor = UIColor()
         
         if (centerPixelLocation.x >= 0 && centerPixelLocation.x < backgroundImage!.size.width) && (centerPixelLocation.y >= 0 && centerPixelLocation.y < backgroundImage!.size.height) {
             if let color = reader.getColorFromPixel(centerPixelLocation) {
-                centerColor = color
+                centerColor.uiColor = color
             }
         } else {
-            centerColor = .white
+            centerColor.uiColor = .white
         }
-        colorBarButton.tintColor = centerColor
+        
+        colorBarButton.tintColor = centerColor.uiColor
         hexBarButton.title = "#\(centerColor.hexValue)"
         
         let (red, green, blue, _) = centerColor.rgbValues

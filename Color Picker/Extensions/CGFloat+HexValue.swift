@@ -17,8 +17,8 @@ extension CGFloat {
             return String(describing: Int(self))
         }
         else {
-            var values = ["A", "B", "C", "D", "E", "F"]
-            return values[Int(self)-10]
+            let letters = ["A", "B", "C", "D", "E", "F"]
+            return letters[Int(self)-10]
         }
     }
 }

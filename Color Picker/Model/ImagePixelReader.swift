@@ -32,6 +32,7 @@ class ImagePixelReader
                                 bytesPerRow: 4 * Int(size.width),
                                 space: colorSpace,
                                 bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+        
         guard let cgImage = image!.cgImage else { return nil }
         context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         

@@ -22,9 +22,15 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     private var cameraDevice: AVCaptureDevice?
     private var previewLayer: AVCaptureVideoPreviewLayer?
     
-    private var centerColor = UIColor.white
+    private var centerColor = HexColor()
     
     private var sensitivity = 10
+    
+    @objc func changeSensitivity(_ notification: NSNotification) {
+        if let sensitivitySetting = notification.userInfo?["sensitivity"] as? Int {
+            sensitivity = sensitivitySetting
+        }
+    }
     
     //MARK: - Override methods
     
@@ -41,12 +47,17 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         }
         
         do {
-            let videoDeviceInput = try AVCaptureDeviceInput(device: cameraDevice!)
-            if captureSession.canAddInput(videoDeviceInput) {
-                captureSession.addInput(videoDeviceInput)
+            if let device = cameraDevice {
+                try? device.lockForConfiguration()
+                device.videoZoomFactor = 1.0
+                device.unlockForConfiguration()
             }
-        } catch {
-//            print(error)
+            
+            if let videoDeviceInput = try? AVCaptureDeviceInput(device: cameraDevice!) {
+                if captureSession.canAddInput(videoDeviceInput) {
+                    captureSession.addInput(videoDeviceInput)
+                }
+            }
         }
         initializePreviewLayer()
         captureSession.startRunning()
@@ -61,12 +72,6 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(changeSensitivity(_:)), name: NSNotification.Name("changeSensitivity"), object: nil)
-    }
-    
-    @objc func changeSensitivity(_ notification: NSNotification) {
-        if let sensitivitySetting = notification.userInfo?["sensitivity"] as? Int {
-            sensitivity = sensitivitySetting
-        }
     }
     
     //MARK: - Video Capture
@@ -89,7 +94,7 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         } else {
             //after view disappears and re-appears, this else statement executes
             //maybe because the capture session already has a video output?
-            print("Cannot add video output")
+//            print("Cannot add video output")
         }
     }
     
@@ -117,24 +122,28 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     
     //MARK: - Colors
     
-    private func setBarButtonColors(color: UIColor) {
+    @IBAction func copyColor(_ sender: UIBarButtonItem) {
+        UIPasteboard.general.string = centerColor.hexValue
+    }
+    
+    
+    private func setBarButtonColors(color: HexColor) {
         let (red, green, blue, _) = color.rgbValues
-        let rgbIntValues = (Int(red*255), Int(green*255), Int(blue*255))
-        let (intRed, intGreen, intBlue) = (rgbIntValues.0, rgbIntValues.1, rgbIntValues.2)
-        
+        let (intRed, intGreen, intBlue) = (Int(red*255), Int(green*255), Int(blue*255))
+
         let (currentRed, currentGreen, currentBlue, _) = centerColor.rgbValues
         let (currentIntRed, currentIntGreen, currentIntBlue) = (Int(currentRed*255), Int(currentGreen*255), Int(currentBlue*255))
         
         //User can decide how sensitive the color changes are
         if abs(currentIntRed - intRed) > sensitivity || abs(currentIntGreen - intGreen) > sensitivity || abs(currentIntBlue - intBlue) > sensitivity {
             centerColor = color
-            colorBarButton.tintColor = color
-            hexBarButton.title = "#\(color.hexValue)"
-            rgbBarButton.title = String(describing: rgbIntValues)
+            colorBarButton.tintColor = color.uiColor
+            hexBarButton.title = "#\(centerColor.hexValue)"
+            rgbBarButton.title = String(describing: (intRed, intGreen, intBlue))
         }
     }
     
-    private func getColorFromCenter(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIColor {
+    private func getColorFromCenter(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> HexColor {
         
         let pixelByteLocation = ((Int(width) * Int(height/2)) + Int(width/2)) * 4
         
@@ -145,6 +154,6 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         let r = CGFloat(byteBuffer[pixelByteLocation + 2])/255
         let a = CGFloat(byteBuffer[pixelByteLocation + 3])/255
         
-        return UIColor(red: r, green: g, blue: b, alpha: a)
+        return HexColor(red: r, green: g, blue: b, alpha: a)
     }
 }

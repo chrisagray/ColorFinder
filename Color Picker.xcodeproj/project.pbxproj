@@ -19,6 +19,8 @@
 		838E5A242003FC0A002098E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A222003FC0A002098E1 /* Main.storyboard */; };
 		838E5A262003FC0A002098E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A252003FC0A002098E1 /* Assets.xcassets */; };
 		838E5A292003FC0A002098E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A272003FC0A002098E1 /* LaunchScreen.storyboard */; };
+		83CF0800202A46EB00E1B21E /* String+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CF07FF202A46EB00E1B21E /* String+Properties.swift */; };
+		83CF0804202BC6DF00E1B21E /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CF0803202BC6DF00E1B21E /* HexColor.swift */; };
 		83D7FEB1200531F70086DB22 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D7FEB0200531F70086DB22 /* CameraViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,8 @@
 		838E5A252003FC0A002098E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		838E5A282003FC0A002098E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		838E5A2A2003FC0A002098E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83CF07FF202A46EB00E1B21E /* String+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Properties.swift"; sourceTree = "<group>"; };
+		83CF0803202BC6DF00E1B21E /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		83D7FEB0200531F70086DB22 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,6 +58,7 @@
 		83317742202262D600BE5310 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				83CF0803202BC6DF00E1B21E /* HexColor.swift */,
 				83317740202262CF00BE5310 /* ImagePixelReader.swift */,
 			);
 			path = Model;
@@ -62,6 +67,7 @@
 		83455DA320128454008BADE2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				83CF07FF202A46EB00E1B21E /* String+Properties.swift */,
 				8363241E2011931F00892F01 /* UIImage+Orientation.swift */,
 				83455DA120128431008BADE2 /* CGFloat+HexValue.swift */,
 				83455D9F2012840D008BADE2 /* UIColor+Properties.swift */,
@@ -193,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				830E1740201BAD3D00EC4E65 /* CustomCameraViewController.swift in Sources */,
+				83CF0804202BC6DF00E1B21E /* HexColor.swift in Sources */,
 				83455DA220128431008BADE2 /* CGFloat+HexValue.swift in Sources */,
 				83455DA02012840E008BADE2 /* UIColor+Properties.swift in Sources */,
 				838E5A212003FC0A002098E1 /* ColorPickerViewController.swift in Sources */,
@@ -202,6 +209,7 @@
 				83D7FEB1200531F70086DB22 /* CameraViewController.swift in Sources */,
 				8343F613200AC5A7008CC2B1 /* PixelTargetView.swift in Sources */,
 				838E5A1F2003FC0A002098E1 /* AppDelegate.swift in Sources */,
+				83CF0800202A46EB00E1B21E /* String+Properties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

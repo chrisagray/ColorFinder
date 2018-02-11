@@ -150,7 +150,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9va-SY-kyk">
-                                <rect key="frame" x="129.66666666666666" y="196.33333333333334" width="116" height="30"/>
+                                <rect key="frame" x="129.66666666666666" y="160" width="116" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Rbk-w8-Lqz"/>
                                 </constraints>
@@ -158,25 +158,47 @@
                                 <state key="normal" title="#FFFFFF">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="copyColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YPb-lb-7pG"/>
-                                </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TkW-sZ-dxq">
-                                <rect key="frame" x="0.0" y="234.33333333333331" width="375" height="144.33333333333331"/>
+                                <rect key="frame" x="0.0" y="270" width="375" height="108"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hef-ob-PvE">
-                                <rect key="frame" x="0.0" y="44" width="375" height="144.33333333333334"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="108"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="Q7n-Vq-ExX">
+                                <rect key="frame" x="102.66666666666669" y="220" width="170" height="42"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAF-Zw-Bcl">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <state key="normal" title="Copy">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="copyColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xj3-FS-KWO"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YiI-n2-IjM">
+                                        <rect key="frame" x="110" y="0.0" width="60" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <state key="normal" title="Paste">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pasteColor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Czl-6Y-We7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="pJb-bR-Fnc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="centerY" priority="750" id="057-cY-DWZ"/>
+                            <constraint firstItem="Q7n-Vq-ExX" firstAttribute="centerX" secondItem="9va-SY-kyk" secondAttribute="centerX" id="2Yo-CB-cdg"/>
                             <constraint firstItem="TkW-sZ-dxq" firstAttribute="height" secondItem="hef-ob-PvE" secondAttribute="height" id="7QM-VL-rTy"/>
                             <constraint firstItem="hef-ob-PvE" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Axe-iy-hVI"/>
-                            <constraint firstItem="TkW-sZ-dxq" firstAttribute="top" secondItem="9va-SY-kyk" secondAttribute="bottom" constant="8" symbolic="YES" id="CPz-bh-j6G"/>
                             <constraint firstItem="pJb-bR-Fnc" firstAttribute="top" secondItem="TkW-sZ-dxq" secondAttribute="bottom" constant="8" symbolic="YES" id="HPV-zf-wu2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pJb-bR-Fnc" secondAttribute="trailing" constant="20" id="HgC-qn-DYc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="pJb-bR-Fnc" secondAttribute="bottom" constant="20" id="NlP-pt-P1I"/>
@@ -187,7 +209,9 @@
                             <constraint firstItem="pJb-bR-Fnc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Zz3-7d-Y6B"/>
                             <constraint firstItem="hef-ob-PvE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="kLI-sL-NSe"/>
                             <constraint firstItem="9va-SY-kyk" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="nQw-bO-0Xg"/>
+                            <constraint firstItem="Q7n-Vq-ExX" firstAttribute="top" secondItem="9va-SY-kyk" secondAttribute="bottom" constant="30" id="rOC-aF-5b4"/>
                             <constraint firstItem="9va-SY-kyk" firstAttribute="top" secondItem="hef-ob-PvE" secondAttribute="bottom" constant="8" symbolic="YES" id="xCM-YJ-uDn"/>
+                            <constraint firstItem="TkW-sZ-dxq" firstAttribute="top" secondItem="Q7n-Vq-ExX" secondAttribute="bottom" constant="8" symbolic="YES" id="zq2-KI-q7H"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -218,6 +242,9 @@
                         <outletCollection property="steppers" destination="yqu-Pf-Hkw" collectionClass="NSMutableArray" id="pE0-H7-EGI"/>
                         <outletCollection property="steppers" destination="1Wz-Ry-NZl" collectionClass="NSMutableArray" id="G6G-FK-HOA"/>
                         <outletCollection property="sliders" destination="51z-6i-YJW" collectionClass="NSMutableArray" id="P7G-nu-ynx"/>
+                        <outletCollection property="buttons" destination="9va-SY-kyk" collectionClass="NSMutableArray" id="J7k-9l-W5k"/>
+                        <outletCollection property="buttons" destination="HAF-Zw-Bcl" collectionClass="NSMutableArray" id="N2k-mk-6Mw"/>
+                        <outletCollection property="buttons" destination="YiI-n2-IjM" collectionClass="NSMutableArray" id="WE4-XM-brl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -273,9 +300,20 @@
                         <leftBarButtonItems>
                             <barButtonItem image="white" id="umX-Sy-fcX">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="copyColor:" destination="BRj-WR-BPC" id="6xa-vp-O2k"/>
+                                </connections>
                             </barButtonItem>
-                            <barButtonItem title="Hex" id="Oqb-X9-1nD"/>
-                            <barButtonItem title="RGB" id="Vkw-M7-bf2"/>
+                            <barButtonItem title="Hex" id="Oqb-X9-1nD">
+                                <connections>
+                                    <action selector="copyColor:" destination="BRj-WR-BPC" id="5ER-lv-wbB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="RGB" id="Vkw-M7-bf2">
+                                <connections>
+                                    <action selector="copyColor:" destination="BRj-WR-BPC" id="8bB-ib-bhG"/>
+                                </connections>
+                            </barButtonItem>
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="BfV-Kt-TtW">
                             <connections>
@@ -427,9 +465,20 @@
                         <leftBarButtonItems>
                             <barButtonItem image="white" id="zk9-AK-DfQ">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="copyColor:" destination="xnW-26-cmk" id="lE4-tw-mFu"/>
+                                </connections>
                             </barButtonItem>
-                            <barButtonItem title="Hex" id="dL6-Xa-ta0"/>
-                            <barButtonItem title="RGB" id="bt3-jm-2GW"/>
+                            <barButtonItem title="Hex" id="dL6-Xa-ta0">
+                                <connections>
+                                    <action selector="copyColor:" destination="xnW-26-cmk" id="fgh-ew-LkB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="RGB" id="bt3-jm-2GW">
+                                <connections>
+                                    <action selector="copyColor:" destination="xnW-26-cmk" id="7NG-LG-gj5"/>
+                                </connections>
+                            </barButtonItem>
                         </leftBarButtonItems>
                     </navigationItem>
                     <connections>
