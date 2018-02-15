@@ -86,10 +86,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         colorBarButton.tintColor = centerColor.uiColor
         hexBarButton.title = "#\(centerColor.hexValue)"
         
-        let (red, green, blue, _) = centerColor.rgbValues
+        let (red, green, blue, _) = centerColor.rgb255Values
         
-        let rgbIntValues = (Int(red*255), Int(green*255), Int(blue*255))
-        rgbBarButton.title = String(describing: rgbIntValues)
+        rgbBarButton.title = String(describing: (red, green, blue))
     }
     
     //MARK: - Scroll View

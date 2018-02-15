@@ -128,18 +128,16 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     
     
     private func setBarButtonColors(color: HexColor) {
-        let (red, green, blue, _) = color.rgbValues
-        let (intRed, intGreen, intBlue) = (Int(red*255), Int(green*255), Int(blue*255))
-
-        let (currentRed, currentGreen, currentBlue, _) = centerColor.rgbValues
-        let (currentIntRed, currentIntGreen, currentIntBlue) = (Int(currentRed*255), Int(currentGreen*255), Int(currentBlue*255))
+        let (red, green, blue, _) = color.rgb255Values
+        let (currentRed, currentGreen, currentBlue, _) = centerColor.rgb255Values
         
         //User can decide how sensitive the color changes are
-        if abs(currentIntRed - intRed) > sensitivity || abs(currentIntGreen - intGreen) > sensitivity || abs(currentIntBlue - intBlue) > sensitivity {
+        let sensitivity = CGFloat(self.sensitivity)
+        if abs(currentRed - red) > sensitivity || abs(currentGreen - green) > sensitivity || abs(currentBlue - blue) > sensitivity {
             centerColor = color
             colorBarButton.tintColor = color.uiColor
             hexBarButton.title = "#\(centerColor.hexValue)"
-            rgbBarButton.title = String(describing: (intRed, intGreen, intBlue))
+            rgbBarButton.title = String(describing: (red, green, blue))
         }
     }
     

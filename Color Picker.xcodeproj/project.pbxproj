@@ -11,7 +11,6 @@
 		83317741202262CF00BE5310 /* ImagePixelReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83317740202262CF00BE5310 /* ImagePixelReader.swift */; };
 		8343F613200AC5A7008CC2B1 /* PixelTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343F612200AC5A7008CC2B1 /* PixelTargetView.swift */; };
 		8344589E2005589900280BE9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344589D2005589900280BE9 /* SettingsTableViewController.swift */; };
-		83455DA02012840E008BADE2 /* UIColor+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83455D9F2012840D008BADE2 /* UIColor+Properties.swift */; };
 		83455DA220128431008BADE2 /* CGFloat+HexValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83455DA120128431008BADE2 /* CGFloat+HexValue.swift */; };
 		8363241F2011931F00892F01 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8363241E2011931F00892F01 /* UIImage+Orientation.swift */; };
 		838E5A1F2003FC0A002098E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5A1E2003FC0A002098E1 /* AppDelegate.swift */; };
@@ -29,7 +28,6 @@
 		83317740202262CF00BE5310 /* ImagePixelReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePixelReader.swift; sourceTree = "<group>"; };
 		8343F612200AC5A7008CC2B1 /* PixelTargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTargetView.swift; sourceTree = "<group>"; };
 		8344589D2005589900280BE9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
-		83455D9F2012840D008BADE2 /* UIColor+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Properties.swift"; sourceTree = "<group>"; };
 		83455DA120128431008BADE2 /* CGFloat+HexValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+HexValue.swift"; sourceTree = "<group>"; };
 		8363241E2011931F00892F01 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
 		838E5A1B2003FC0A002098E1 /* Color Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +68,6 @@
 				83CF07FF202A46EB00E1B21E /* String+Properties.swift */,
 				8363241E2011931F00892F01 /* UIImage+Orientation.swift */,
 				83455DA120128431008BADE2 /* CGFloat+HexValue.swift */,
-				83455D9F2012840D008BADE2 /* UIColor+Properties.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -201,7 +198,6 @@
 				830E1740201BAD3D00EC4E65 /* CustomCameraViewController.swift in Sources */,
 				83CF0804202BC6DF00E1B21E /* HexColor.swift in Sources */,
 				83455DA220128431008BADE2 /* CGFloat+HexValue.swift in Sources */,
-				83455DA02012840E008BADE2 /* UIColor+Properties.swift in Sources */,
 				838E5A212003FC0A002098E1 /* ColorPickerViewController.swift in Sources */,
 				8363241F2011931F00892F01 /* UIImage+Orientation.swift in Sources */,
 				83317741202262CF00BE5310 /* ImagePixelReader.swift in Sources */,

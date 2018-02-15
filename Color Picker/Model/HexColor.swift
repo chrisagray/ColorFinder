@@ -41,7 +41,6 @@ struct HexColor
             if hexValue.count == 7 {
                 hexValue = String(hexValue.suffix(6))
             }
-            print(hexValue)
             redValue = CGFloat(hexadecimal[hexValue[0]!]! * 16 + hexadecimal[hexValue[1]!]!)/255
             greenValue = CGFloat(hexadecimal[hexValue[2]!]! * 16 + hexadecimal[hexValue[3]!]!)/255
             blueValue = CGFloat(hexadecimal[hexValue[4]!]! * 16 + hexadecimal[hexValue[5]!]!)/255
@@ -59,8 +58,9 @@ struct HexColor
         return (redValue, greenValue, blueValue, alphaValue)
     }
     
-    var rgbIntegerValues: (CGFloat, CGFloat, CGFloat, CGFloat) {
-        return (redValue*255, greenValue*255, blueValue*255, alphaValue*255)
+    var rgb255Values: (CGFloat, CGFloat, CGFloat, CGFloat) {
+        let (intRed, intGreen, intBlue) = (Int(redValue*255), Int(greenValue*255), Int(blueValue*255))
+        return (CGFloat(intRed), CGFloat(intGreen), CGFloat(intBlue), alphaValue)
     }
     
     var uiColor: UIColor {
