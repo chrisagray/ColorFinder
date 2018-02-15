@@ -59,6 +59,10 @@ struct HexColor
         return (redValue, greenValue, blueValue, alphaValue)
     }
     
+    var rgbIntegerValues: (CGFloat, CGFloat, CGFloat, CGFloat) {
+        return (redValue*255, greenValue*255, blueValue*255, alphaValue*255)
+    }
+    
     var uiColor: UIColor {
         get {
             return UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: alphaValue)

@@ -274,7 +274,7 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZB-9K-92v">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.25" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZB-9K-92v">
                                 <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                             </scrollView>
                         </subviews>

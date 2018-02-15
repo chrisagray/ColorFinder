@@ -18,8 +18,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     private var backgroundImageView = UIImageView()
     private let reader = ImagePixelReader()
-    private let minimumZoomScale = 0.25
-    private let maximumZoomScale = 1.0
+    private let minimumZoomScale: CGFloat = 0.25
+    private let maximumZoomScale: CGFloat = 1.0
     
     private var centerColor = HexColor()
     
@@ -62,9 +62,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     private func setContentSizes() {
-        scrollView.zoomScale = 0.25
-        scrollView.contentSize = CGSize(width: backgroundImageView.frame.width + scrollView.frame.width, height: backgroundImageView.frame.height + scrollView.frame.height)
+        scrollView.zoomScale = minimumZoomScale
+        
         backgroundImageView.frame = CGRect(x: scrollView.frame.width/2, y: scrollView.frame.height/2, width: backgroundImageView.frame.width, height: backgroundImageView.frame.height)
+        
+        scrollView.contentSize = backgroundImageView.frame.size
         
         scrollView.contentOffset.x = (backgroundImage!.size.width/2)*scrollView.zoomScale
         scrollView.contentOffset.y = (backgroundImage!.size.height/2)*scrollView.zoomScale
@@ -95,18 +97,23 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet {
             scrollView.delegate = self
-            scrollView.minimumZoomScale = 0.25
-            scrollView.maximumZoomScale = 1.5
+            scrollView.minimumZoomScale = minimumZoomScale
+            scrollView.maximumZoomScale = maximumZoomScale
             scrollView.addSubview(backgroundImageView)
         }
     }
+    
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return backgroundImageView
     }
     
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        scrollView.contentSize = CGSize(width: backgroundImageView.frame.width + scrollView.frame.width, height: backgroundImageView.frame.height + scrollView.frame.height)
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        
+        let offsetX = scrollView.frame.width
+        let offsetY = scrollView.frame.height
+        
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: offsetY, right: offsetX)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

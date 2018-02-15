@@ -143,12 +143,13 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         }
     }
     
-    private func getColorFromCenter(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> HexColor {
+    private func getColorFromCenter(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> HexColor? {
         
         let pixelByteLocation = ((Int(width) * Int(height/2)) + Int(width/2)) * 4
         
         //kCVPixelFormatType_32BGRA
         //TODO: sometimes this crashes when switching back and forth quickly
+        
         let b = CGFloat(byteBuffer[pixelByteLocation])/255
         let g = CGFloat(byteBuffer[pixelByteLocation + 1])/255
         let r = CGFloat(byteBuffer[pixelByteLocation + 2])/255
