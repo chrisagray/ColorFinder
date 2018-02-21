@@ -37,14 +37,27 @@ struct HexColor
             return hex
         }
         set {
+            //TODO: Make sure newValue is in Hex format
+            
             var hexValue = newValue.uppercased()
             if hexValue.count == 7 {
                 hexValue = String(hexValue.suffix(6))
             }
-            redValue = CGFloat(hexadecimal[hexValue[0]!]! * 16 + hexadecimal[hexValue[1]!]!)/255
-            greenValue = CGFloat(hexadecimal[hexValue[2]!]! * 16 + hexadecimal[hexValue[3]!]!)/255
-            blueValue = CGFloat(hexadecimal[hexValue[4]!]! * 16 + hexadecimal[hexValue[5]!]!)/255
+            
+            //TODO: Get rid of force unwrapping
+            
+            redValue = convertHexToDecimal(firstValue: hexValue[0]!, secondValue: hexValue[1]!)!
+            greenValue = convertHexToDecimal(firstValue: hexValue[2]!, secondValue: hexValue[3]!)!
+            blueValue = convertHexToDecimal(firstValue: hexValue[4]!, secondValue: hexValue[5]!)!
             alphaValue = 1.0
+        }
+    }
+    
+    private func convertHexToDecimal(firstValue: Character, secondValue: Character) -> CGFloat? {
+        if let firstDecimal = hexadecimal[firstValue], let secondDecimal = hexadecimal[secondValue] {
+            return CGFloat(firstDecimal * 16 + secondDecimal)/255
+        } else {
+            return nil
         }
     }
     

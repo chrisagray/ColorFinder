@@ -88,7 +88,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         let (red, green, blue, _) = centerColor.rgb255Values
         
-        rgbBarButton.title = String(describing: (red, green, blue))
+        rgbBarButton.title = String(describing: (Int(red), Int(green), Int(blue)))
     }
     
     //MARK: - Scroll View

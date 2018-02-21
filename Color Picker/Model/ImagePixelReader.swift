@@ -20,7 +20,7 @@ class ImagePixelReader
     private var pixelData: [UInt8]?
     
     //Credit for this method: https://stackoverflow.com/a/41640262/7993739
-    func getPixelData() -> [UInt8]? {
+    private func getPixelData() -> [UInt8]? {
         let size = image!.size
         let dataSize = size.width * size.height * 4
         var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
@@ -35,7 +35,6 @@ class ImagePixelReader
         
         guard let cgImage = image!.cgImage else { return nil }
         context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        
         return pixelData
     }
     

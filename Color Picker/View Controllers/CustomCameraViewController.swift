@@ -32,12 +32,27 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         }
     }
     
-    //MARK: - Override methods
+    //MARK: - Override methods/properties
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         view.bringSubview(toFront: pixelTargetView)
-        
+        initializeCamera()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        captureSession.stopRunning()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(changeSensitivity(_:)), name: NSNotification.Name("changeSensitivity"), object: nil)
+    }
+    
+    //MARK: - Video Capture
+    
+    private func initializeCamera() {
         let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
         
         for camera in videoDeviceDiscoverySession.devices as [AVCaptureDevice] {
@@ -64,23 +79,15 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         initializeVideoOutput()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        captureSession.stopRunning()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(changeSensitivity(_:)), name: NSNotification.Name("changeSensitivity"), object: nil)
-    }
-    
-    //MARK: - Video Capture
-    
     private func initializePreviewLayer() {
-        let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        previewLayer.frame = cameraView.bounds
-        cameraView.layer.addSublayer(previewLayer)
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        if let layer = previewLayer {
+            layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            if let view = cameraView {
+                layer.frame = view.bounds
+                view.layer.addSublayer(layer)
+            }
+        }
     }
     
     private func initializeVideoOutput() {
@@ -91,10 +98,6 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         videoOutput.setSampleBufferDelegate(self, queue: videoQueue)
         if captureSession.canAddOutput(videoOutput) {
             captureSession.addOutput(videoOutput)
-        } else {
-            //after view disappears and re-appears, this else statement executes
-            //maybe because the capture session already has a video output?
-//            print("Cannot add video output")
         }
     }
     
@@ -112,11 +115,16 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)!
         let byteBuffer = baseAddress.assumingMemoryBound(to: UInt8.self)
         
-        DispatchQueue.main.async { [weak weakSelf = self] in //need this?
-            if let newColor = weakSelf?.getColorFromCenter(byteBuffer: byteBuffer, width: width, height: height) {
-                weakSelf?.setBarButtonColors(color: newColor)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in //want self to be weak in case user navigates away
+            //Background thread
+            if let newColor = self?.getColorFromCenter(byteBuffer: byteBuffer, width: width, height: height) {
+                DispatchQueue.main.async {
+                    //Update UI here
+                    self?.setBarButtonColors(color: newColor)
+                }
             }
         }
+        
         CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
     }
     
@@ -125,7 +133,6 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
         UIPasteboard.general.string = centerColor.hexValue
     }
-    
     
     private func setBarButtonColors(color: HexColor) {
         let (red, green, blue, _) = color.rgb255Values
@@ -137,7 +144,7 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
             centerColor = color
             colorBarButton.tintColor = color.uiColor
             hexBarButton.title = "#\(centerColor.hexValue)"
-            rgbBarButton.title = String(describing: (red, green, blue))
+            rgbBarButton.title = String(describing: (Int(red), Int(green), Int(blue)))
         }
     }
     
@@ -146,7 +153,6 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         let pixelByteLocation = ((Int(width) * Int(height/2)) + Int(width/2)) * 4
         
         //kCVPixelFormatType_32BGRA
-        //TODO: sometimes this crashes when switching back and forth quickly
         
         let b = CGFloat(byteBuffer[pixelByteLocation])/255
         let g = CGFloat(byteBuffer[pixelByteLocation + 1])/255
