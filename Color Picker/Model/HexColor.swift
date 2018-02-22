@@ -15,9 +15,19 @@ private var hexadecimal: [Character: Int] = ["0": 0, "1": 1, "2": 2, "3": 3, "4"
 
 struct HexColor
 {
+    //MARK: Inits
+    
     init() {}
-    init(hex: String) {
-        hexValue = hex
+    init?(hex: String) {
+        if !isValidHexValue(hex) {
+            return nil
+        } else {
+            if hex.count == 7 {
+                hexValue = String(hex.suffix(6))
+            } else {
+                hexValue = hex
+            }
+        }
     }
     init(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         redValue = red; greenValue = green; blueValue = blue; alphaValue = alpha
@@ -25,8 +35,10 @@ struct HexColor
     init(color: UIColor) {
         color.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue)
     }
+    
 
-    var hexValue: String {
+    //TODO: Might make this stored
+    private(set) var hexValue: String? {
         get {
             var hex = ""
             for color in [redValue, greenValue, blueValue] {
@@ -37,20 +49,36 @@ struct HexColor
             return hex
         }
         set {
-            //TODO: Make sure newValue is in Hex format
-            
-            var hexValue = newValue.uppercased()
-            if hexValue.count == 7 {
-                hexValue = String(hexValue.suffix(6))
+            //assuming valid hex value
+            if let hex = newValue {
+                if let red = convertHexToDecimal(firstValue: hex[0]!, secondValue: hex[1]!) {
+                    if let green = convertHexToDecimal(firstValue: hex[2]!, secondValue: hex[3]!) {
+                        if let blue = convertHexToDecimal(firstValue: hex[4]!, secondValue: hex[5]!) {
+                            redValue = red
+                            greenValue = green
+                            blueValue = blue
+                            alphaValue = 1.0
+                        }
+                    }
+                }
             }
-            
-            //TODO: Get rid of force unwrapping
-            
-            redValue = convertHexToDecimal(firstValue: hexValue[0]!, secondValue: hexValue[1]!)!
-            greenValue = convertHexToDecimal(firstValue: hexValue[2]!, secondValue: hexValue[3]!)!
-            blueValue = convertHexToDecimal(firstValue: hexValue[4]!, secondValue: hexValue[5]!)!
-            alphaValue = 1.0
         }
+    }
+    
+    private func isValidHexValue(_ hexValue: String) -> Bool {
+        if hexValue.count < 6 || hexValue.count > 7 {
+            return false
+        }
+        var hex = hexValue.uppercased()
+        if hex.count == 7 {
+            hex = String(hex.suffix(6))
+        }
+        for char in hex {
+            if hexadecimal[char] == nil {
+                return false
+            }
+        }
+        return true
     }
     
     private func convertHexToDecimal(firstValue: Character, secondValue: Character) -> CGFloat? {
@@ -93,6 +121,4 @@ struct HexColor
         let darkness = 1-((redValue*redDarknessMultiplier + greenValue*greenDarknessMultiplier + blueValue*blueDarknessMultiplier)*alphaValue)
         return darkness > 0.5 ? true : false
     }
-    
-    
 }

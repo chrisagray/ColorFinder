@@ -22,7 +22,12 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     private var cameraDevice: AVCaptureDevice?
     private var previewLayer: AVCaptureVideoPreviewLayer?
     
-    private var centerColor = HexColor()
+    private var centerColor = HexColor() {
+        didSet {
+            centerColorWasSet = true
+        }
+    }
+    private var centerColorWasSet = false
     
     private var sensitivity = 10
     
@@ -131,7 +136,9 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     //MARK: - Colors
     
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
-        UIPasteboard.general.string = centerColor.hexValue
+        if centerColorWasSet {
+            UIPasteboard.general.string = centerColor.hexValue!
+        }
     }
     
     private func setBarButtonColors(color: HexColor) {
@@ -143,7 +150,7 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
         if abs(currentRed - red) > sensitivity || abs(currentGreen - green) > sensitivity || abs(currentBlue - blue) > sensitivity {
             centerColor = color
             colorBarButton.tintColor = color.uiColor
-            hexBarButton.title = "#\(centerColor.hexValue)"
+            hexBarButton.title = "#\(centerColor.hexValue!)"
             rgbBarButton.title = String(describing: (Int(red), Int(green), Int(blue)))
         }
     }

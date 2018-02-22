@@ -25,7 +25,9 @@ extension String {
         return self[self.index(self.startIndex, offsetBy: bounds)]
     }
     
-    internal func getDecimalFromHexValue() -> Int? { //setting internal for project-specific extension
+    //Internal for project-specific extension
+    
+    internal func getDecimalFromHexValue() -> Int? {
         let letters = ["A", "B", "C", "D", "E", "F"]
         if let intValue = Int(self) {
             return intValue

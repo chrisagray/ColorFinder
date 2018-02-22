@@ -45,7 +45,8 @@ class ColorPickerViewController: UIViewController {
         didSet {
             self.view.backgroundColor = backgroundColor.uiColor
             textColor = backgroundColor.isDark ? .white : .black
-            hexValueButton.setTitle("#\(backgroundColor.hexValue)", for: .normal)
+            hexValueButton.setTitle("#\(backgroundColor.hexValue!)", for: .normal)
+            syncSlidersAndSteppers()
         }
     }
     
@@ -78,11 +79,11 @@ class ColorPickerViewController: UIViewController {
     
     @IBAction func pasteColor(_ sender: UIButton) {
         if let copiedHexValue = UIPasteboard.general.string {
-            backgroundColor = HexColor(hex: copiedHexValue)
-            syncSlidersAndSteppers()
+            if let newColor = HexColor(hex: copiedHexValue) {
+                backgroundColor = newColor
+            }
         }
     }
-    
     
     @IBAction func changedColorValue(_ sender: Any) {
         var index: Int!
@@ -110,7 +111,6 @@ class ColorPickerViewController: UIViewController {
         default:
             break
         }
-        syncSlidersAndSteppers()
     }
 
     private func syncSlidersAndSteppers() {
@@ -156,6 +156,5 @@ class ColorPickerViewController: UIViewController {
             }
             backgroundColor = HexColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
         }
-        syncSlidersAndSteppers()
     }
 }

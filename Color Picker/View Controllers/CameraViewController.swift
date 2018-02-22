@@ -21,7 +21,12 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     private let minimumZoomScale: CGFloat = 0.25
     private let maximumZoomScale: CGFloat = 1.0
     
-    private var centerColor = HexColor()
+    private var centerColor = HexColor() {
+        didSet {
+            centerColorWasSet = true
+        }
+    }
+    private var centerColorWasSet = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +34,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         pixelTargetView.isHidden = true
     }
     
+    //duplicated with CustomCameraVC
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
-        UIPasteboard.general.string = centerColor.hexValue
+        if centerColorWasSet {
+            UIPasteboard.general.string = centerColor.hexValue!
+        }
     }
     
     
@@ -84,7 +92,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
         
         colorBarButton.tintColor = centerColor.uiColor
-        hexBarButton.title = "#\(centerColor.hexValue)"
+        hexBarButton.title = "#\(centerColor.hexValue!)"
         
         let (red, green, blue, _) = centerColor.rgb255Values
         
