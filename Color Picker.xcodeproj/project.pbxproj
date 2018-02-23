@@ -13,6 +13,7 @@
 		8344589E2005589900280BE9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344589D2005589900280BE9 /* SettingsTableViewController.swift */; };
 		83455DA220128431008BADE2 /* CGFloat+HexValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83455DA120128431008BADE2 /* CGFloat+HexValue.swift */; };
 		8363241F2011931F00892F01 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8363241E2011931F00892F01 /* UIImage+Orientation.swift */; };
+		836DFB3320408F8D0063C928 /* Hexadecimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836DFB3220408F8D0063C928 /* Hexadecimal.swift */; };
 		838E5A1F2003FC0A002098E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5A1E2003FC0A002098E1 /* AppDelegate.swift */; };
 		838E5A212003FC0A002098E1 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5A202003FC0A002098E1 /* ColorPickerViewController.swift */; };
 		838E5A242003FC0A002098E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A222003FC0A002098E1 /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 		8344589D2005589900280BE9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		83455DA120128431008BADE2 /* CGFloat+HexValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+HexValue.swift"; sourceTree = "<group>"; };
 		8363241E2011931F00892F01 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
+		836DFB3220408F8D0063C928 /* Hexadecimal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hexadecimal.swift; sourceTree = "<group>"; };
 		838E5A1B2003FC0A002098E1 /* Color Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		838E5A1E2003FC0A002098E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		838E5A202003FC0A002098E1 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				83CF0803202BC6DF00E1B21E /* HexColor.swift */,
+				836DFB3220408F8D0063C928 /* Hexadecimal.swift */,
 				83317740202262CF00BE5310 /* ImagePixelReader.swift */,
 			);
 			path = Model;
@@ -204,6 +207,7 @@
 				8344589E2005589900280BE9 /* SettingsTableViewController.swift in Sources */,
 				83D7FEB1200531F70086DB22 /* CameraViewController.swift in Sources */,
 				8343F613200AC5A7008CC2B1 /* PixelTargetView.swift in Sources */,
+				836DFB3320408F8D0063C928 /* Hexadecimal.swift in Sources */,
 				838E5A1F2003FC0A002098E1 /* AppDelegate.swift in Sources */,
 				83CF0800202A46EB00E1B21E /* String+Properties.swift in Sources */,
 			);

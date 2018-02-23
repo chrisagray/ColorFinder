@@ -9,12 +9,10 @@
 import Foundation
 import UIKit
 
-//global?
-private var hexadecimal: [Character: Int] = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7,
-                                             "8": 8, "9": 9, "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15]
-
 struct HexColor
 {
+    let hexArray = Hexadecimal().hexArray
+    
     //MARK: Inits
     
     init() {}
@@ -35,9 +33,7 @@ struct HexColor
     init(color: UIColor) {
         color.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue)
     }
-    
 
-    //TODO: Might make this stored
     private(set) var hexValue: String? {
         get {
             var hex = ""
@@ -74,7 +70,7 @@ struct HexColor
             hex = String(hex.suffix(6))
         }
         for char in hex {
-            if hexadecimal[char] == nil {
+            if hexArray[char] == nil {
                 return false
             }
         }
@@ -82,7 +78,7 @@ struct HexColor
     }
     
     private func convertHexToDecimal(firstValue: Character, secondValue: Character) -> CGFloat? {
-        if let firstDecimal = hexadecimal[firstValue], let secondDecimal = hexadecimal[secondValue] {
+        if let firstDecimal = hexArray[firstValue], let secondDecimal = hexArray[secondValue] {
             return CGFloat(firstDecimal * 16 + secondDecimal)/255
         } else {
             return nil
