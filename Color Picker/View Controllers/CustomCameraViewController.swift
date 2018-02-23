@@ -137,7 +137,9 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
         if centerColorWasSet {
-            UIPasteboard.general.string = centerColor.hexValue!
+            if let hexValue = centerColor.hexValue {
+                copyHexColorWithBanner(hex: "#\(hexValue)")
+            }
         }
     }
     

@@ -11,7 +11,6 @@ import UIKit
 
 struct HexColor
 {
-    let hexArray = Hexadecimal().hexArray
     
     //MARK: Inits
     
@@ -33,6 +32,9 @@ struct HexColor
     init(color: UIColor) {
         color.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue)
     }
+    
+    private let hexArray: [Character: Int] = ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7,
+                                      "8": 8, "9": 9, "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15]
 
     private(set) var hexValue: String? {
         get {

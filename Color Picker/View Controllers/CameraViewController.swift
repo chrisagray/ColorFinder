@@ -37,7 +37,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     //duplicated with CustomCameraVC
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
         if centerColorWasSet {
-            UIPasteboard.general.string = centerColor.hexValue!
+            if let hexValue = centerColor.hexValue {
+                copyHexColorWithBanner(hex: "#\(hexValue)")
+            }
         }
     }
     

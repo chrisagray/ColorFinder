@@ -7,6 +7,18 @@
 //
 
 import UIKit
+import BRYXBanner
+
+func copyHexColorWithBanner(hex: String) {
+    UIPasteboard.general.string = hex
+    let banner = Banner(title: "Copied \(hex)", subtitle: nil, image: nil, backgroundColor: .white) {
+        
+    }
+    //default font size is 17
+    banner.textColor = .black
+    banner.minimumHeight = 64
+    banner.show(duration: 0.5)
+}
 
 class ColorPickerViewController: UIViewController {
     
@@ -72,9 +84,8 @@ class ColorPickerViewController: UIViewController {
     
     @IBAction func copyColor(_ sender: UIButton) {
         if let hexValue = hexValueButton.currentTitle {
-            UIPasteboard.general.string = hexValue
+            copyHexColorWithBanner(hex: hexValue)
         }
-        //TODO: Add alert
     }
     
     @IBAction func pasteColor(_ sender: UIButton) {
