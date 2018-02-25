@@ -20,10 +20,13 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if sensitivity != previousSensitivity {
-            previousSensitivity = sensitivity
-            NotificationCenter.default.post(name: NSNotification.Name("changeSensitivity"), object: nil, userInfo: ["sensitivity": sensitivity])
+        if sensitivitySlider != nil {
+            if sensitivity != previousSensitivity {
+                previousSensitivity = sensitivity
+                NotificationCenter.default.post(name: NSNotification.Name("changeSensitivity"), object: nil, userInfo: ["sensitivity": sensitivity])
+            }
         }
+        
     }
     
     @IBAction func alphaSettingChanged(_ sender: UISwitch) {

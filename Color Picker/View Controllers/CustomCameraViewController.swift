@@ -42,7 +42,9 @@ class CustomCameraViewController: UIViewController, AVCaptureVideoDataOutputSamp
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         view.bringSubview(toFront: pixelTargetView)
-        initializeCamera()
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            initializeCamera()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

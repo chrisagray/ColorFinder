@@ -14,7 +14,13 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var hexBarButton: UIBarButtonItem!
     @IBOutlet weak var rgbBarButton: UIBarButtonItem!
     @IBOutlet weak var pixelTargetView: PixelTargetView!
-    @IBOutlet weak var loadImageButton: UIButton!
+    @IBOutlet weak var imageButton: UIButton!
+    
+    @IBOutlet weak var cameraButton: UIBarButtonItem! {
+        didSet {
+            cameraButton.isEnabled = cameraIsAvailable || photoLibraryIsAvailable
+        }
+    }
     
     private var backgroundImageView = UIImageView()
     private let reader = ImagePixelReader()
@@ -30,7 +36,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.bringSubview(toFront: loadImageButton)
         pixelTargetView.isHidden = true
     }
     
@@ -43,7 +48,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    
     //MARK: - Image
     
     private var centerPixelLocation: CGPoint! {
@@ -52,7 +56,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     private var userChosePhoto = false {
         didSet {
-            loadImageButton.isHidden = true
+            imageButton.isHidden = true
             pixelTargetView.isHidden = false
             view.bringSubview(toFront: pixelTargetView)
         }
@@ -138,29 +142,28 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         return UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
     }
     
-    @IBOutlet weak var cameraButton: UIBarButtonItem! {
-        didSet {
-            cameraButton.isEnabled = cameraIsAvailable || photoLibraryIsAvailable
-        }
-    }
     
-    @IBAction func presentPhotoActionSheet(_ sender: Any) {
-        let photoActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    @IBAction func presentImageChoices(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if cameraIsAvailable {
-            photoActionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+            alert.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
                 self.takePhoto()
             }))
         }
         if photoLibraryIsAvailable {
-            photoActionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+            alert.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
                 self.choosePhoto()
             }))
         }
-        photoActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            photoActionSheet.dismiss(animated: true)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            alert.dismiss(animated: true)
         }))
-        present(photoActionSheet, animated: true)
+        alert.modalPresentationStyle = .popover
+        alert.popoverPresentationController?.barButtonItem = cameraButton
+        present(alert, animated: true)
     }
+    
+    //MARK: - ImagePickerController
     
     private func takePhoto() {
         let picker = UIImagePickerController()
@@ -168,15 +171,13 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         picker.sourceType = .camera
         present(picker, animated: true)
     }
-
+    
     private func choosePhoto() {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
-    
-    //MARK: - ImagePickerController
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)

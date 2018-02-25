@@ -259,17 +259,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PKN-t0-LiI">
-                                <rect key="frame" x="87.666666666666686" y="308.66666666666669" width="200" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="3jR-92-DJ2"/>
-                                    <constraint firstAttribute="width" constant="200" id="uzi-o1-quU"/>
-                                </constraints>
-                                <state key="normal" image="Load-Image-1000"/>
-                                <connections>
-                                    <action selector="presentPhotoActionSheet:" destination="BRj-WR-BPC" eventType="touchUpInside" id="eCo-XK-9dX"/>
-                                </connections>
-                            </button>
                             <view userInteractionEnabled="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="oTq-X1-gfX" customClass="PixelTargetView" customModule="Color_Picker" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -277,17 +266,28 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.25" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZB-9K-92v">
                                 <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLU-9D-Kxm">
+                                <rect key="frame" x="87.666666666666686" y="308.66666666666669" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Zch-Bx-1sP"/>
+                                    <constraint firstAttribute="height" constant="200" id="etU-jv-fG0"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="Load-Image-1000"/>
+                                <connections>
+                                    <action selector="presentImageChoices:" destination="BRj-WR-BPC" eventType="touchUpInside" id="I6a-5z-Cen"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="zLU-9D-Kxm" firstAttribute="centerY" secondItem="lgS-Eu-eDV" secondAttribute="centerY" id="1gp-sV-msw"/>
                             <constraint firstItem="oTq-X1-gfX" firstAttribute="leading" secondItem="lgS-Eu-eDV" secondAttribute="leading" id="9gv-Zm-kls"/>
-                            <constraint firstItem="PKN-t0-LiI" firstAttribute="centerY" secondItem="lgS-Eu-eDV" secondAttribute="centerY" id="E6h-2M-fYN"/>
                             <constraint firstItem="lgS-Eu-eDV" firstAttribute="trailing" secondItem="oTq-X1-gfX" secondAttribute="trailing" id="Ibk-0B-rop"/>
                             <constraint firstItem="OZB-9K-92v" firstAttribute="top" secondItem="lgS-Eu-eDV" secondAttribute="top" id="Pdu-gX-u8e"/>
                             <constraint firstItem="lgS-Eu-eDV" firstAttribute="bottom" secondItem="oTq-X1-gfX" secondAttribute="bottom" id="YZG-V9-SOZ"/>
-                            <constraint firstItem="PKN-t0-LiI" firstAttribute="centerX" secondItem="lgS-Eu-eDV" secondAttribute="centerX" id="jTk-kj-f4J"/>
                             <constraint firstItem="OZB-9K-92v" firstAttribute="centerY" secondItem="lgS-Eu-eDV" secondAttribute="centerY" id="k5A-30-n5e"/>
+                            <constraint firstItem="zLU-9D-Kxm" firstAttribute="centerX" secondItem="lgS-Eu-eDV" secondAttribute="centerX" id="pcL-Gz-CJh"/>
                             <constraint firstItem="OZB-9K-92v" firstAttribute="bottom" secondItem="lgS-Eu-eDV" secondAttribute="bottom" id="qIi-bn-ZWk"/>
                             <constraint firstItem="oTq-X1-gfX" firstAttribute="top" secondItem="lgS-Eu-eDV" secondAttribute="top" id="tbW-4L-T1i"/>
                             <constraint firstItem="OZB-9K-92v" firstAttribute="centerX" secondItem="lgS-Eu-eDV" secondAttribute="centerX" id="ufd-KD-TvE"/>
@@ -317,7 +317,7 @@
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="BfV-Kt-TtW">
                             <connections>
-                                <action selector="presentPhotoActionSheet:" destination="BRj-WR-BPC" id="BJz-1q-C8a"/>
+                                <action selector="presentImageChoices:" destination="BRj-WR-BPC" id="BJz-1q-C8a"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -325,7 +325,7 @@
                         <outlet property="cameraButton" destination="BfV-Kt-TtW" id="HTN-lT-bzp"/>
                         <outlet property="colorBarButton" destination="umX-Sy-fcX" id="KMO-Ni-cv1"/>
                         <outlet property="hexBarButton" destination="Oqb-X9-1nD" id="NSz-0d-rfJ"/>
-                        <outlet property="loadImageButton" destination="PKN-t0-LiI" id="FhY-rR-Xvs"/>
+                        <outlet property="imageButton" destination="zLU-9D-Kxm" id="r5i-YR-NbC"/>
                         <outlet property="pixelTargetView" destination="oTq-X1-gfX" id="xB6-EB-MlU"/>
                         <outlet property="rgbBarButton" destination="Vkw-M7-bf2" id="V62-QR-YMn"/>
                         <outlet property="scrollView" destination="OZB-9K-92v" id="9FA-VK-zQQ"/>
@@ -333,7 +333,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dQh-Di-WVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2239" y="131"/>
+            <point key="canvasLocation" x="2237.5999999999999" y="130.78817733990149"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Cxk-jI-Sko">
