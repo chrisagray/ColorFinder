@@ -16,6 +16,7 @@ class SettingsTableViewController: UITableViewController {
         let subtractedSensitivity = Int(sensitivitySlider.maximumValue) - Int(round(sensitivitySlider.value))
         return subtractedSensitivity > 1 ? subtractedSensitivity : 1
     }
+    
     private lazy var previousSensitivity = sensitivity
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -26,7 +27,6 @@ class SettingsTableViewController: UITableViewController {
                 NotificationCenter.default.post(name: NSNotification.Name("changeSensitivity"), object: nil, userInfo: ["sensitivity": sensitivity])
             }
         }
-        
     }
     
     @IBAction func alphaSettingChanged(_ sender: UISwitch) {

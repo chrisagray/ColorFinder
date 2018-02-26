@@ -11,10 +11,8 @@ import BRYXBanner
 
 func copyHexColorWithBanner(hex: String) {
     UIPasteboard.general.string = hex
-    let banner = Banner(title: "Copied \(hex)", subtitle: nil, image: nil, backgroundColor: .white) {
-        
-    }
-    //default font size is 17
+    let banner = Banner(title: "Copied \(hex)", subtitle: nil, image: nil, backgroundColor: .white) {}
+    
     banner.textColor = .black
     banner.minimumHeight = 64
     banner.show(duration: 0.5)
@@ -125,8 +123,6 @@ class ColorFinderViewController: UIViewController {
     }
 
     private func syncSlidersAndSteppers() {
-        //shouldn't move values if not needed
-        
         let (red, green, blue, alpha) = (backgroundColor.redValue*255, backgroundColor.greenValue*255, backgroundColor.blueValue*255, backgroundColor.alphaValue)
 
         redValueLabel.text! = "\(Int(red))"

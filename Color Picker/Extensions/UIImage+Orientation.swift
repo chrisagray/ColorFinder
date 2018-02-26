@@ -10,9 +10,7 @@ import UIKit
 
 extension UIImage {
     func fixOrientation() -> UIImage? {
-        if self.imageOrientation == .up {
-            return self
-        }
+        if self.imageOrientation == .up { return self }
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()

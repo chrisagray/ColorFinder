@@ -39,8 +39,8 @@ class ImagePixelReader
     }
     
     
-    //every pixel is one point, can't have .5 pixels, so use Int
-    //get area of prior pixels, multiply by 4 bytes per pixel
+    //Every pixel is one point, can't have .5 pixels, so use Int
+    //Get area of prior pixels, multiply by 4 bytes per pixel
     
     func getColorFromPixel(_ pixel: CGPoint) -> UIColor? {
         let pixelByteLocation = ((Int(image!.size.width) * Int(pixel.y)) + Int(pixel.x)) * 4

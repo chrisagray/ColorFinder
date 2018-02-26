@@ -39,7 +39,6 @@ class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UI
         pixelTargetView.isHidden = true
     }
     
-    //duplicated with CustomCameraVC
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
         if centerColorWasSet {
             if let hexValue = centerColor.hexValue {
