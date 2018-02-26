@@ -14,7 +14,7 @@
 		83455DA220128431008BADE2 /* CGFloat+HexValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83455DA120128431008BADE2 /* CGFloat+HexValue.swift */; };
 		8363241F2011931F00892F01 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8363241E2011931F00892F01 /* UIImage+Orientation.swift */; };
 		838E5A1F2003FC0A002098E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5A1E2003FC0A002098E1 /* AppDelegate.swift */; };
-		838E5A212003FC0A002098E1 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5A202003FC0A002098E1 /* ColorPickerViewController.swift */; };
+		838E5A212003FC0A002098E1 /* ColorFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5A202003FC0A002098E1 /* ColorFinderViewController.swift */; };
 		838E5A242003FC0A002098E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A222003FC0A002098E1 /* Main.storyboard */; };
 		838E5A262003FC0A002098E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A252003FC0A002098E1 /* Assets.xcassets */; };
 		838E5A292003FC0A002098E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838E5A272003FC0A002098E1 /* LaunchScreen.storyboard */; };
@@ -35,7 +35,7 @@
 		8363241E2011931F00892F01 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
 		838E5A1B2003FC0A002098E1 /* Color Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		838E5A1E2003FC0A002098E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		838E5A202003FC0A002098E1 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
+		838E5A202003FC0A002098E1 /* ColorFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFinderViewController.swift; sourceTree = "<group>"; };
 		838E5A232003FC0A002098E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		838E5A252003FC0A002098E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		838E5A282003FC0A002098E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -89,7 +89,7 @@
 		83455DA420128460008BADE2 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				838E5A202003FC0A002098E1 /* ColorPickerViewController.swift */,
+				838E5A202003FC0A002098E1 /* ColorFinderViewController.swift */,
 				83D7FEB0200531F70086DB22 /* CameraViewController.swift */,
 				830E173F201BAD3D00EC4E65 /* CustomCameraViewController.swift */,
 				8344589D2005589900280BE9 /* SettingsTableViewController.swift */,
@@ -279,7 +279,7 @@
 				830E1740201BAD3D00EC4E65 /* CustomCameraViewController.swift in Sources */,
 				83CF0804202BC6DF00E1B21E /* HexColor.swift in Sources */,
 				83455DA220128431008BADE2 /* CGFloat+HexValue.swift in Sources */,
-				838E5A212003FC0A002098E1 /* ColorPickerViewController.swift in Sources */,
+				838E5A212003FC0A002098E1 /* ColorFinderViewController.swift in Sources */,
 				8363241F2011931F00892F01 /* UIImage+Orientation.swift in Sources */,
 				83317741202262CF00BE5310 /* ImagePixelReader.swift in Sources */,
 				8344589E2005589900280BE9 /* SettingsTableViewController.swift in Sources */,

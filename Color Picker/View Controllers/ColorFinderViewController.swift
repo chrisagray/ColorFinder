@@ -20,7 +20,7 @@ func copyHexColorWithBanner(hex: String) {
     banner.show(duration: 0.5)
 }
 
-class ColorPickerViewController: UIViewController {
+class ColorFinderViewController: UIViewController {
     
     @IBOutlet weak var hexValueButton: UIButton!
     @IBOutlet var buttons: [UIButton]!
