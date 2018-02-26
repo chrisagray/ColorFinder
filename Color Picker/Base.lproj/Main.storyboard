@@ -247,10 +247,10 @@
             </objects>
             <point key="canvasLocation" x="479.19999999999999" y="132.26600985221674"/>
         </scene>
-        <!--Camera View Controller-->
+        <!--Image View Controller-->
         <scene sceneID="aAf-LQ-5U2">
             <objects>
-                <viewController id="BRj-WR-BPC" customClass="CameraViewController" customModule="Color_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BRj-WR-BPC" customClass="ImageViewController" customModule="Color_Picker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bjw-58-GyQ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -426,10 +426,10 @@
             </objects>
             <point key="canvasLocation" x="2322" y="910"/>
         </scene>
-        <!--Custom Camera View Controller-->
+        <!--Camera View Controller-->
         <scene sceneID="b7T-Vt-2S3">
             <objects>
-                <viewController id="xnW-26-cmk" customClass="CustomCameraViewController" customModule="Color_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="xnW-26-cmk" customClass="CameraViewController" customModule="Color_Picker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1wM-nu-ZVz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

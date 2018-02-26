@@ -1,31 +1,26 @@
 //
-//  CameraViewController.swift
+//  CustomCameraViewController.swift
 //  Color Picker
 //
-//  Created by Chris Gray on 1/9/18.
+//  Created by Chris Gray on 1/26/18.
 //  Copyright © 2018 Chris Gray. All rights reserved.
 //
 
 import UIKit
+import AVFoundation
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate {
+class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     @IBOutlet weak var colorBarButton: UIBarButtonItem!
     @IBOutlet weak var hexBarButton: UIBarButtonItem!
     @IBOutlet weak var rgbBarButton: UIBarButtonItem!
+    
     @IBOutlet weak var pixelTargetView: PixelTargetView!
-    @IBOutlet weak var imageButton: UIButton!
+    @IBOutlet weak var cameraView: UIView!
     
-    @IBOutlet weak var cameraButton: UIBarButtonItem! {
-        didSet {
-            cameraButton.isEnabled = cameraIsAvailable || photoLibraryIsAvailable
-        }
-    }
-    
-    private var backgroundImageView = UIImageView()
-    private let reader = ImagePixelReader()
-    private let minimumZoomScale: CGFloat = 0.25
-    private let maximumZoomScale: CGFloat = 1.0
+    private let captureSession = AVCaptureSession()
+    private var cameraDevice: AVCaptureDevice?
+    private var previewLayer: AVCaptureVideoPreviewLayer?
     
     private var centerColor = HexColor() {
         didSet {
@@ -34,12 +29,114 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     private var centerColorWasSet = false
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        pixelTargetView.isHidden = true
+    private var sensitivity = 10
+    
+    @objc func changeSensitivity(_ notification: NSNotification) {
+        if let sensitivitySetting = notification.userInfo?["sensitivity"] as? Int {
+            sensitivity = sensitivitySetting
+        }
     }
     
-    //duplicated with CustomCameraVC
+    //MARK: - Override methods/properties
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        view.bringSubview(toFront: pixelTargetView)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            initializeCamera()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        captureSession.stopRunning()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(changeSensitivity(_:)), name: NSNotification.Name("changeSensitivity"), object: nil)
+    }
+    
+    //MARK: - Video Capture
+    
+    private func initializeCamera() {
+        let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
+        
+        for camera in videoDeviceDiscoverySession.devices as [AVCaptureDevice] {
+            if camera.position == .back {
+                cameraDevice = camera
+            }
+        }
+        
+        do {
+            if let device = cameraDevice {
+                try? device.lockForConfiguration()
+                device.videoZoomFactor = 1.0
+                device.unlockForConfiguration()
+            }
+            
+            if let videoDeviceInput = try? AVCaptureDeviceInput(device: cameraDevice!) {
+                if captureSession.canAddInput(videoDeviceInput) {
+                    captureSession.addInput(videoDeviceInput)
+                }
+            }
+        }
+        initializePreviewLayer()
+        captureSession.startRunning()
+        initializeVideoOutput()
+    }
+    
+    private func initializePreviewLayer() {
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        if let layer = previewLayer {
+            layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            if let view = cameraView {
+                layer.frame = view.bounds
+                view.layer.addSublayer(layer)
+            }
+        }
+    }
+    
+    private func initializeVideoOutput() {
+        let videoOutput = AVCaptureVideoDataOutput()
+        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
+        
+        let videoQueue = DispatchQueue(label: "VideoQueue")
+        videoOutput.setSampleBufferDelegate(self, queue: videoQueue)
+        if captureSession.canAddOutput(videoOutput) {
+            captureSession.addOutput(videoOutput)
+        }
+    }
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            processImageBuffer(imageBuffer)
+        }
+    }
+    
+    private func processImageBuffer(_ imageBuffer: CVPixelBuffer) {
+        let width = CVPixelBufferGetWidth(imageBuffer)
+        let height = CVPixelBufferGetHeight(imageBuffer)
+        
+        CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
+        let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)!
+        let byteBuffer = baseAddress.assumingMemoryBound(to: UInt8.self)
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in //want self to be weak in case user navigates away
+            //Background thread
+            if let newColor = self?.getColorFromCenter(byteBuffer: byteBuffer, width: width, height: height) {
+                DispatchQueue.main.async {
+                    //Update UI here
+                    self?.setBarButtonColors(color: newColor)
+                }
+            }
+        }
+        
+        CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
+    }
+    
+    //MARK: - Colors
+    
     @IBAction func copyColor(_ sender: UIBarButtonItem) {
         if centerColorWasSet {
             if let hexValue = centerColor.hexValue {
@@ -48,146 +145,31 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //MARK: - Image
-    
-    private var centerPixelLocation: CGPoint! {
-        return CGPoint(x: Int((scrollView.contentOffset.x)/scrollView.zoomScale), y: Int((scrollView.contentOffset.y)/scrollView.zoomScale))
-    }
-    
-    private var userChosePhoto = false {
-        didSet {
-            imageButton.isHidden = true
-            pixelTargetView.isHidden = false
-            view.bringSubview(toFront: pixelTargetView)
+    private func setBarButtonColors(color: HexColor) {
+        let (red, green, blue, _) = color.rgb255Values
+        let (currentRed, currentGreen, currentBlue, _) = centerColor.rgb255Values
+        
+        //User can decide how sensitive the color changes are
+        let sensitivity = CGFloat(self.sensitivity)
+        if abs(currentRed - red) > sensitivity || abs(currentGreen - green) > sensitivity || abs(currentBlue - blue) > sensitivity {
+            centerColor = color
+            colorBarButton.tintColor = color.uiColor
+            hexBarButton.title = "#\(centerColor.hexValue!)"
+            rgbBarButton.title = String(describing: (Int(red), Int(green), Int(blue)))
         }
     }
     
-    private var backgroundImage: UIImage? {
-        didSet {
-            if !userChosePhoto {
-                userChosePhoto = true
-            }
-            reader.image = backgroundImage!.fixOrientation()
-            
-            backgroundImageView.image = backgroundImage
-            backgroundImageView.sizeToFit()
-            setContentSizes()
-        }
-    }
-    
-    private func setContentSizes() {
-        scrollView.zoomScale = minimumZoomScale
+    private func getColorFromCenter(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> HexColor? {
         
-        backgroundImageView.frame = CGRect(x: scrollView.frame.width/2, y: scrollView.frame.height/2, width: backgroundImageView.frame.width, height: backgroundImageView.frame.height)
+        let pixelByteLocation = ((Int(width) * Int(height/2)) + Int(width/2)) * 4
         
-        scrollView.contentSize = backgroundImageView.frame.size
+        //kCVPixelFormatType_32BGRA
         
-        scrollView.contentOffset.x = (backgroundImage!.size.width/2)*scrollView.zoomScale
-        scrollView.contentOffset.y = (backgroundImage!.size.height/2)*scrollView.zoomScale
-    }
-    
-    private func getColorFromCenter() {
-        //dividing scollView's offsets by the zoomScale if we're zoomed in/out
+        let b = CGFloat(byteBuffer[pixelByteLocation])/255
+        let g = CGFloat(byteBuffer[pixelByteLocation + 1])/255
+        let r = CGFloat(byteBuffer[pixelByteLocation + 2])/255
+        let a = CGFloat(byteBuffer[pixelByteLocation + 3])/255
         
-        if (centerPixelLocation.x >= 0 && centerPixelLocation.x < backgroundImage!.size.width) && (centerPixelLocation.y >= 0 && centerPixelLocation.y < backgroundImage!.size.height) {
-            if let color = reader.getColorFromPixel(centerPixelLocation) {
-                centerColor.uiColor = color
-            }
-        } else {
-            centerColor.uiColor = .white
-        }
-        
-        colorBarButton.tintColor = centerColor.uiColor
-        hexBarButton.title = "#\(centerColor.hexValue!)"
-        
-        let (red, green, blue, _) = centerColor.rgb255Values
-        
-        rgbBarButton.title = String(describing: (Int(red), Int(green), Int(blue)))
-    }
-    
-    //MARK: - Scroll View
-    
-    @IBOutlet weak var scrollView: UIScrollView! {
-        didSet {
-            scrollView.delegate = self
-            scrollView.minimumZoomScale = minimumZoomScale
-            scrollView.maximumZoomScale = maximumZoomScale
-            scrollView.addSubview(backgroundImageView)
-        }
-    }
-    
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return backgroundImageView
-    }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        
-        let offsetX = scrollView.frame.width
-        let offsetY = scrollView.frame.height
-        
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: offsetY, right: offsetX)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        getColorFromCenter()
-    }
-    
-    //MARK: - Camera
-    
-    private var cameraIsAvailable: Bool {
-        return UIImagePickerController.isSourceTypeAvailable(.camera)
-    }
-    private var photoLibraryIsAvailable: Bool {
-        return UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
-    }
-    
-    
-    @IBAction func presentImageChoices(_ sender: Any) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        if cameraIsAvailable {
-            alert.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
-                self.takePhoto()
-            }))
-        }
-        if photoLibraryIsAvailable {
-            alert.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
-                self.choosePhoto()
-            }))
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            alert.dismiss(animated: true)
-        }))
-        alert.modalPresentationStyle = .popover
-        alert.popoverPresentationController?.barButtonItem = cameraButton
-        present(alert, animated: true)
-    }
-    
-    //MARK: - ImagePickerController
-    
-    private func takePhoto() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .camera
-        present(picker, animated: true)
-    }
-    
-    private func choosePhoto() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .photoLibrary
-        present(picker, animated: true)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true)
-    }
-    
-    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        dismiss(animated: true)
-        if let image = (info[UIImagePickerControllerEditedImage] as? UIImage ?? info[UIImagePickerControllerOriginalImage]) as? UIImage {
-            backgroundImage = image
-        }
-        getColorFromCenter()
+        return HexColor(red: r, green: g, blue: b, alpha: a)
     }
 }
