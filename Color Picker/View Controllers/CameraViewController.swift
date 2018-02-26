@@ -1,5 +1,5 @@
 //
-//  CustomCameraViewController.swift
+//  CameraViewController.swift
 //  Color Picker
 //
 //  Created by Chris Gray on 1/26/18.

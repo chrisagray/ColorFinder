@@ -1,5 +1,5 @@
 //
-//  ColorPickerViewController.swift
+//  ColorFinderViewController.swift
 //  Color Picker
 //
 //  Created by Chris Gray on 1/8/18.
