@@ -137,7 +137,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     //MARK: - Colors
     
-    @IBAction func copyColor(_ sender: UIBarButtonItem) {
+    @IBAction private func copyColor() {
         if centerColorWasSet {
             if let hexValue = centerColor.hexValue {
                 copyHexColorWithBanner(hex: "#\(hexValue)")

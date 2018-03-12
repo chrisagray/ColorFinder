@@ -39,7 +39,7 @@ class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UI
         pixelTargetView.isHidden = true
     }
     
-    @IBAction func copyColor(_ sender: UIBarButtonItem) {
+    @IBAction func copyColor() {
         if centerColorWasSet {
             if let hexValue = centerColor.hexValue {
                 copyHexColorWithBanner(hex: "#\(hexValue)")
@@ -112,6 +112,9 @@ class ImageViewController: UIViewController, UIImagePickerControllerDelegate, UI
             scrollView.minimumZoomScale = minimumZoomScale
             scrollView.maximumZoomScale = maximumZoomScale
             scrollView.addSubview(backgroundImageView)
+            
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(copyColor))
+            scrollView.addGestureRecognizer(tapRecognizer)
         }
     }
     
